@@ -6,21 +6,20 @@ col_x = col_y - col_h + 1;
 
 h_tilde = rot90(h, 2);
 
-half_row=(row_h-1)/2;
-half_col=(col_h-1)/2;
-% x=y(half_row+1:end-half_row,half_col+1:end-half_col);
+half_row = (row_h - 1) / 2;
+half_col = (col_h - 1) / 2;
+x = y(half_row + 1:end - half_row, half_col + 1:end - half_col);
 
 x = zeros(row_x, col_x);
 lr = 0.5 / (h(:)' * h(:))^2;
-% lr=0.02;
+lr = 0.02;
 epoch = 1000;
 
 Loss_temp = Loss_Function(x, h, y);
 x_temp = x;
 
 for i = 1:epoch
-    fprintf('%d \t %f \n',i,lr);
-
+    
     grad = conv2(h_tilde, conv2(x, h, 'full') - y, 'full');
     grad = grad(row_h:row_y, col_h:col_y);
     descent = lr .* grad;
@@ -37,6 +36,7 @@ for i = 1:epoch
     end
     
 end
+
 end
 
 function L = Loss_Function(x, h, y)
