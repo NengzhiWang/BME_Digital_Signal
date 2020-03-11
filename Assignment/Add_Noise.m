@@ -12,8 +12,10 @@ Rand_Noise = randn(size(Signal));
 Noise = sqrt(Noise_Power) * Rand_Noise;
 
 Signal_Noise = Signal + Noise;
+% Signal_Noise = awgn(Signal, SNR, 'measured');
 
 % µ÷Õû¶¯Ì¬·¶Î§
 Signal_Noise = max(Signal_Noise, 0);
 Signal_Noise = rescale(Signal_Noise);
 end
+    
