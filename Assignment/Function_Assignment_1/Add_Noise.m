@@ -18,4 +18,3 @@ Signal_Noise = Signal + Noise;
 Signal_Noise = max(Signal_Noise, 0);
 Signal_Noise = rescale(Signal_Noise);
 end
-    

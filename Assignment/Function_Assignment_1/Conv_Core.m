@@ -1,4 +1,4 @@
-function h = conv_core(m, n, sigma)
+function h = Conv_Core(m, n, sigma)
 m = (m - 1) / 2;
 n = (n - 1) / 2;
 [h1, h2] = meshgrid(-m:+m, -n:+n);
