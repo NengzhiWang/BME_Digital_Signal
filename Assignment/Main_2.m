@@ -2,6 +2,7 @@ clc
 clear all
 close all
 addpath(genpath('./Function_Assignment_1'))
+
 %%
 % 生成原始数据
 SNR = 0;
@@ -22,12 +23,14 @@ imwrite(img, './Image/test image.tif');
 imwrite(y, './Image/conv image without noise.tif');
 imwrite(y_N, './Image/conv image with noise.tif')
 pause(1)
+
 %%
 % 使用GPU数组，加快计算
 y_N = single(y_N);
 y_N = gpuArray(y_N);
 h = single(h);
 h = gpuArray(h);
+
 %%
 % 快速梯度下降
 x_1 = deconv2_fast_grad_descent(y_N, h);
