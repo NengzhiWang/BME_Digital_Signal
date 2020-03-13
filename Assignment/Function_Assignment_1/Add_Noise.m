@@ -16,5 +16,5 @@ Signal_Noise = Signal + Noise;
 
 % µ÷Õû¶¯Ì¬·¶Î§
 Signal_Noise = max(Signal_Noise, 0);
-Signal_Noise = rescale(Signal_Noise);
+Signal_Noise = min(Signal_Noise, 1);
 end

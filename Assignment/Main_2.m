@@ -2,7 +2,6 @@ clc
 clear all
 close all
 addpath(genpath('./Function_Assignment_1'))
-
 %%
 % 生成原始数据
 SNR = 0;
@@ -23,7 +22,6 @@ imwrite(img, './Image/test image.tif');
 imwrite(y, './Image/conv image without noise.tif');
 imwrite(y_N, './Image/conv image with noise.tif')
 pause(1)
-
 %%
 % 使用GPU数组，加快计算
 y_N = single(y_N);
@@ -69,26 +67,26 @@ pause(1)
 
 %%
 % 稀疏性逆卷积
-x_L1_1 = deconv2_sparse(y_N, h, 1e-4);
+x_L1_1 = deconv2_sparse(y_N, h, 1e-3);
 x_L1_1 = gather(x_L1_1);
 x_L1_1 = Rescale(x_L1_1);
 figure, imshow(x_L1_1)
-title('deconv sparse 1e-4')
-imwrite(x_L1_1, './Image/deconv sparse 1e-4.tif')
+title('deconv sparse 1e-3')
+imwrite(x_L1_1, './Image/deconv sparse 1e-3.tif')
 pause(1)
 
-x_L1_2 = deconv2_sparse(y_N, h, 1e-3);
+x_L1_2 = deconv2_sparse(y_N, h, 5e-3);
 x_L1_2 = gather(x_L1_2);
 x_L1_2 = Rescale(x_L1_2);
 figure, imshow(x_L1_2)
-title('deconv sparse 1e-3')
-imwrite(x_L1_2, './Image/deconv sparse 1e-3.tif')
+title('deconv sparse 5e-3')
+imwrite(x_L1_2, './Image/deconv sparse 5e-3.tif')
 pause(1)
 
-x_L1_3 = deconv2_sparse(y_N, h, 1e-5);
+x_L1_3 = deconv2_sparse(y_N, h, 2e-4);
 x_L1_3 = gather(x_L1_3);
 x_L1_3 = Rescale(x_L1_3);
 figure, imshow(x_L1_3)
-title('deconv sparse 1e-5')
-imwrite(x_L1_3, './Image/deconv sparse 1e-5.tif')
+title('deconv sparse 2e-4')
+imwrite(x_L1_3, './Image/deconv sparse 2e-4.tif')
 pause(1)

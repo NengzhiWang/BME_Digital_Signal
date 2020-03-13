@@ -26,7 +26,7 @@ for i_1 = 1:epoch_1
     grad = grad(row_h:row_y, col_h:col_y);
     descent = lr .* grad;
     x = x - descent;
-    x = soft_thre(x, weight);
+    x = (abs(x) > weight) .* sign(x) .* (abs(x) - weight);
 end
 
 for i_2 = 1:epoch_2
@@ -37,12 +37,8 @@ for i_2 = 1:epoch_2
         grad = grad(row_h:row_y, col_h:col_y);
         descent = lr .* grad;
         x = x - descent;
-        x = soft_thre(x, weight);
+        x = (abs(x) > weight) .* sign(x) .* (abs(x) - weight);
     end
 end
 
-end
-
-function y = soft_thre(x, L)
-y = sign(x) .* (abs(x) - L) .* (abs(x) > L);
 end
