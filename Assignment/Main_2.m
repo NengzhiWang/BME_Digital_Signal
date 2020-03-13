@@ -84,10 +84,10 @@ title('deconv sparse 5e-3')
 imwrite(x_L1_2, './Image/deconv sparse 5e-3.tif')
 pause(1)
 
-x_L1_3 = deconv2_sparse(y_N, h, 2e-4);
+x_L1_3 = deconv2_sparse(y_N, h, 4e-4);
 x_L1_3 = gather(x_L1_3);
 x_L1_3 = Rescale(x_L1_3);
 figure, imshow(x_L1_3)
-title('deconv sparse 2e-4')
-imwrite(x_L1_3, './Image/deconv sparse 2e-4.tif')
+title('deconv sparse 4e-4')
+imwrite(x_L1_3, './Image/deconv sparse 4e-4.tif')
 pause(1)
