@@ -22,6 +22,7 @@ imwrite(img, './Image/test image.tif');
 imwrite(y, './Image/conv image without noise.tif');
 imwrite(y_N, './Image/conv image with noise.tif')
 pause(1)
+
 %%
 % 使用GPU数组，加快计算
 y_N = single(y_N);
