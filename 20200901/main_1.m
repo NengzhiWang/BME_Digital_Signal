@@ -20,6 +20,7 @@ y_noise = Add_Noise(y, SNR);
 % 稀疏重建
 % 正则化系数（*1e-3)
 L = 0.5;
+
 x_deconv_L1 = deconv_L1(y_noise, h, L);
 
 %%

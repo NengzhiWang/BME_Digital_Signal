@@ -15,6 +15,7 @@ epoch_1 = 10;
 epoch_2 = 100;
 
 for i_1 = 1:epoch_1
+    
     for i_2 = 1:epoch_2
         % 梯度下降和软阈值迭代
         
@@ -23,11 +24,11 @@ for i_1 = 1:epoch_1
         grad = grad(len_h:len_y);
         descent = lr .* grad;
         x = x - descent;
-        % 软阈值操作
-        x = (abs(x) > weight) .* sign(x) .* (abs(x) - weight);
-        % 引入非负性
-        x = max(x, 0);
+        % 软阈值操作并引入非负性
+        x = (x >= 0) .* (abs(x) > weight) .* (abs(x) - weight);
+        
     end
+    
     % 根据梯度下降结果，更新权重
     weight = lambda .* (1 ./ (x + 1e-6));
 end

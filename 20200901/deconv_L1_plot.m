@@ -24,12 +24,10 @@ for i_1 = 1:epoch_1
         grad = grad(len_h:len_y);
         descent = lr .* grad;
         x = x - descent;
-        % 软阈值操作
-        x = (abs(x) > weight) .* sign(x) .* (abs(x) - weight);
-        % 引入非负性
-        x = max(x, 0);
+        % 软阈值操作并引入非负性
+        x = (x >= 0) .* (abs(x) > weight) .* (abs(x) - weight);
         
-        figure(2)
+        figure(3)
         plot(x, '-b')
         title_3 = sprintf('Lambda Epoch %d, Descent Epoch %d', i_1, i_2);
         title(title_3);
