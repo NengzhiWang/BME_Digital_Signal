@@ -1,37 +1,48 @@
 clc
 clear all
-% close all
+close all
+
 %%
 % 信号的产生
 % 动作电位脉冲
 x = zeros(1024, 1);
-pulse = [200, 20, 220, 250, 500, 600, 800];
-x(pulse, 1) = 1;
+ap_train = [200, 220, 250, 270, 300, 400, 500, 720, 600, 800, 900];
+x(ap_train, 1) = 1;
 % 指数下降模板
-t = 10;
-h = exp(-(0:1:ceil(3 * t)) / t)';
-% 无噪音的钙信号
+t = 15;
+h = exp(-(0:1:ceil(10 * t)) / t)';
+% 无噪声的钙信号
 y = conv(x, h, 'full');
-% 有噪音的钙信号
-y_noise = Add_Noise(y, 10);
-
-figure(1)
-plot(y_noise, '-r')
-hold on
-plot(y, '-g');
-
-plot(pulse, 1, '.b', 'MarkerSize', 20);
-hold off
-title('Ca Signal with noise')
-legend('Signal with Noise', 'Signal without Noise', 'Pulse Train')
-%%
+% 信噪比dB
+SNR = 15;
+% 有噪声的钙信号
+y_noise = Add_Noise(y, SNR);
 % 稀疏重建
-x_deconv_L1 = deconv_L1(y_noise, h, .75);
+% 正则化系数（*1e-3)
+L = 0.5;
+x_deconv_L1 = deconv_L1(y_noise, h, L);
 
-figure(2)
+%%
+% 绘图
+figure(1)
+plot(y_noise, '-', 'color', [0.46, 0.67, 0.19])
+hold on
+plot(y, '-', 'LineWidth', 1.5, 'color', [0.85, 0.32, 0.01]);
+plot(ap_train, 1, '.b', 'MarkerSize', 20);
+hold off
+title(sprintf('Ca Signal, SNR=%d dB', SNR))
+legend('Signal with Noise', 'Signal without Noise', 'AP Train')
+xlim([0, 1024])
+ylim([-0.4, 1.6])
+box off
+
+figure(3)
 plot(x_deconv_L1, '-r');
 hold on
-plot(pulse, 1, '.b', 'MarkerSize', 20);
-legend('Deconv Result with L1', 'Pulse Train')
+plot(ap_train, 1, '.b', 'MarkerSize', 20);
+legend('Sparse Reconstruction', 'AP Train')
 hold off
-title('L1 Deconv')
+title(sprintf('Sparse Reconstruction, SNR=%d dB, λ=%.5f', SNR, L * 1e-3))
+xlim([0, 1024])
+ylim([-0.02, 1.3])
+box off
