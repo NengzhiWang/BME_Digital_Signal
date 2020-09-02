@@ -36,7 +36,7 @@ xlim([0, 1024])
 ylim([-0.4, 1.6])
 box off
 
-figure(3)
+figure(2)
 plot(x_deconv_L1, '-r');
 hold on
 plot(ap_train, 1, '.b', 'MarkerSize', 20);
