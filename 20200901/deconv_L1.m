@@ -24,10 +24,10 @@ for i_1 = 1:epoch_1
         descent = lr .* grad;
         x = x - descent;
         % 软阈值操作并引入非负性
-        x = (x >= 0) .* (abs(x) > weight) .* (abs(x) - weight);
+        x = (abs(x) > weight) .* (abs(x) - weight) .* sign(x);
+        x = max(x, 0);
     end
     % 根据梯度下降结果，更新权重
     weight = lambda .* (1 ./ (x + 1e-6));
 end
-
 end

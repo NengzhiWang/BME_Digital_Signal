@@ -13,6 +13,7 @@ weight = lambda * ones(len_x, 1);
 lr = 0.01;
 epoch_1 = 10;
 epoch_2 = 100;
+x_plot = zeros(len_x, 6);
 
 for i_1 = 1:epoch_1
     
@@ -25,8 +26,8 @@ for i_1 = 1:epoch_1
         descent = lr .* grad;
         x = x - descent;
         % 软阈值操作并引入非负性
-        x = (x >= 0) .* (abs(x) > weight) .* (abs(x) - weight);
-        
+        x = (abs(x) > weight) .* (abs(x) - weight) .* sign(x);
+        x = max(x, 0);
         figure(3)
         plot(x, '-b')
         title_3 = sprintf('Lambda Epoch %d, Descent Epoch %d', i_1, i_2);
@@ -44,7 +45,7 @@ for i_1 = 1:epoch_1
     
     saveas(gcf, sprintf('%d-%d.svg', i_1, i_2))
     saveas(gcf, sprintf('%d-%d.png', i_1, i_2))
-    % 根据梯度下降结果，更新权重
+    %     根据梯度下降结果，更新权重
     weight = lambda .* (1 ./ (x + 1e-6));
 end
 
