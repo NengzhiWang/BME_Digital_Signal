@@ -2,17 +2,19 @@ clc
 clear all
 % close all
 set(0, 'defaultAxesFontSize', 24)
-
+% 生成离散方波信号
 T = 1;
 w = (2 * pi) / T;
 num_sample = 65536;
-
 t = linspace(-1, 1, num_sample);
 x = double(cos(w * t) >= 0);
 
 num_k = 128;
+% 计算傅里叶级数的正交基
 base = Get_Base(num_k, t, T);
+% 计算傅里叶级数的系数
 spec = FS(x, base, T);
+% 计算重建信号
 recover_x = IFS(spec, base, T);
 figure(1)
 plot(t, x, '-r', 'LineWidth', 2)
@@ -24,37 +26,42 @@ hold off
 ylim([-0.2 1.2])
 title_str = sprintf('离散点数%d，傅里叶级数项数%d', num_sample, num_k);
 title(title_str)
-saveas(gcf, [title_str, '.svg'])
+% saveas(gcf, [title_str, '.svg'])
 
 function fourier_series = FS(f, base, T)
-    fourier_series = Approx_Inner(f, base, T) ./ sqrt(T);
+fourier_series = Approx_Inner(f, base, T) ./ sqrt(T);
 end
 
 function recover_signal = IFS(fourier_series, base, T)
-    recover_signal = real(fourier_series * base .* sqrt(T));
+recover_signal = real(fourier_series * base .* sqrt(T));
 end
 
 function base = Get_Base(num_k, t, T)
-    K = -ceil(num_k / 2):1:ceil(num_k / 2);
-    base = exp(1j .* 2 .* pi .* (1 / T) .* Outer(K, t)) ./ sqrt(T);
+K = -ceil(num_k / 2):1:ceil(num_k / 2);
+base = exp(1j .* 2 .* pi .* (1 / T) .* Outer(K, t)) ./ sqrt(T);
 end
 
 function z = Approx_Inner(f, g, T)
-    num_sample = numel(f);
-    z = (f * conj(g')) .* (T ./ num_sample);
+% 对于给定的函数（值）f和g，以及采样点序列T，近似计算f和g的内积
+num_sample = numel(f);
+z = (f * conj(g')) .* (T ./ num_sample);
 end
 
 function z = Outer(a, b)
-    M = numel(a);
-    N = numel(b);
-    z = zeros(M, N);
-
-    for i = 1:M
-
-        for j = 1:N
-            z(i, j) = a(i) .* b(j);
-        end
-
+% a = [a1, …, am] and b = [b1, …, bn]
+% result = [
+% a1 * b1, a1 * b2, …, a1 * bn;
+% a2 * b1, a2 * b2 ,…, a2 * bn;
+% …
+% am * b1, am * b2, …, am * bn;
+% ]
+% 效果和numpy.outer相同
+M = numel(a);
+N = numel(b);
+z = zeros(M, N);
+for i = 1:M  
+    for j = 1:N
+        z(i, j) = a(i) .* b(j);
     end
-
+end
 end

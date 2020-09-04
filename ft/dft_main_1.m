@@ -5,7 +5,7 @@ set(0, 'defaultAxesFontSize', 24)
 
 Fs = 1000;
 T = 1 / Fs;
-L = 1500;
+L = 1000;
 t = (0:L - 1)' * T;
 
 S = 0.7 * sin(2 * pi * 50 * t) + sin(2 * pi * 120 * t);
