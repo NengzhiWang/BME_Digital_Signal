@@ -7,8 +7,8 @@ img = imread('cameraman.tif');
 img = im2double(img);
 img = imresize(img, [512 512]);
 
-img_dft = ft2_matrix(img);
-img_idft = real(ift2_matrix(img_dft));
+img_dft = dft2(img);
+img_idft = real(idft2(img_dft));
 img_freq_log = log10(abs(fftshift(img_dft)));
 
 img_dft_2 = fft2(img);

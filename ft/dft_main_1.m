@@ -12,13 +12,13 @@ S = 0.7 * sin(2 * pi * 50 * t) + sin(2 * pi * 120 * t);
 
 X = S + 1 * randn(size(t));
 
-Fx_dft = ft2_matrix(X);
+Fx_dft = dft(X);
 Fx_fft = fft(X);
 
 Fx_diff = Fx_dft - Fx_fft;
 
 X_ifft = real(ifft(Fx_fft));
-X_idft = real(ift_matrix(Fx_dft));
+X_idft = real(idft(Fx_dft));
 
 X_diff = (X_idft - X);
 
