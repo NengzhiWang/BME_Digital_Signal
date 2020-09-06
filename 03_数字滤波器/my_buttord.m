@@ -3,6 +3,7 @@ function [order, wc] = my_buttord(wp, ws, Rp, Rs)
 % 滤波器类型
 wp = sort(abs(wp));
 ws = sort(abs(ws));
+
 if numel(wp) == 1
     if wp < ws
         % 低通
@@ -18,7 +19,7 @@ elseif numel(wp) == 2
     elseif wp(1) < ws(1) && wp(2) > ws(2)
         % 带阻，直接调用库函数
         ftype = 4;
-    end
+    end 
 end
 
 if ftype ~= 4
@@ -26,7 +27,6 @@ if ftype ~= 4
     T = 2;
     Wp = (2 / T) .* tan(pi .* wp ./ 2);
     Ws = (2 / T) .* tan(pi .* ws ./ 2);
-    
     if ftype == 1
         % 低通
         Wst = Ws / Wp;
@@ -40,13 +40,11 @@ if ftype ~= 4
     elseif ftype == 4
         % 带阻，直接调用库函数
     end
-    
     % 计算最小阶数
     G = (10^(0.1 * Rs) - 1) / (10^(0.1 * Rp) - 1);
     order = ceil(log(G) / (2 * log(Wst)));
     % 计算截止频率
     W0 = Wst / ((10^(0.1 * Rs) - 1)^(1 / (2 * order)));
-    
     if ftype == 1
         % 低通
         Wc = Wp * W0;
@@ -65,5 +63,7 @@ if ftype ~= 4
     wc = (2 / pi) .* atan(T .* Wc ./ 2);
 elseif ftype == 4
     % 带阻，直接调用库函数
- end
+    [order, wc] = buttord(wp, ws, Rp, Rs);
+end
+
 end
